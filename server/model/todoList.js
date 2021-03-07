@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const todoSchema = new Schema({
+    userFrom: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
     todoString: {
         type: String,
         required: true,

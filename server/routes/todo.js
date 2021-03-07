@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Todo = require('../model/todolist');
 
-
 /******************** Routes Setup **********************/
 
-// @route Get 
-// @desc Get all todos
-// @access Publics
-router.get('/', function (req, res) {
-    Todo.find()
+router.post('/', function (req, res) {
+    if (!req.user) {
+        res.send({'message': 'No user logged in'})
+        res.redirect('/login');
+        return;
+    }
+    console.log(req.user._id);
+    Todo.find({'userFrom': req.user._id})
     .then(todos => {
         res.send(todos);
     }).catch(err => {
@@ -17,9 +19,14 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/', function (req, res) {
+router.post('/add', function (req, res) {
+    if (!req.user) {
+        res.redirect('/login');
+        return;
+    }
     const { todoString, isChecked } = req.body;
     const todo = new Todo ({
+        userFrom: req.user._id,
         todoString,
         isChecked
     });
@@ -34,6 +41,10 @@ router.post('/', function (req, res) {
 });
 
 router.post('/remove', function (req, res) {
+    if (!req.user) {
+        res.redirect('/login');
+        return;
+    }
     const delId = req.body.todoId;
     Todo.findByIdAndRemove(delId)
     .then(()=>{
@@ -41,7 +52,6 @@ router.post('/remove', function (req, res) {
         res.redirect('/')
     })
     .catch(err=> console.log(err));
-
 });
 
 module.exports = router;

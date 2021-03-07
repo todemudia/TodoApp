@@ -18,17 +18,6 @@ const userSchema = new Schema({
         requred: true,
         min: [1, 'Must Enter a Password'],
     },
-    todoList: [{
-        todoString: {
-          type: String,
-          required: true,
-          min: [1, 'Must Enter a todo item'],
-        },
-      isChecked: {    
-          type: Boolean,
-          requred: false //change later to true
-      },
-    }],
 });
 
 module.exports = mongoose.model('User', userSchema);

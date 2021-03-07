@@ -9,25 +9,23 @@ require("../passportConfig")(passport);
 router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
-      if (!user) res.send("No User Exists");
+      if (!user) res.send({ message: 'No user exists' } );
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.send("Successfully Authenticated");
+          res.send({ message: 'Successfully  Authenticated' } );
           console.log(req.user);
         });
       }
     })(req, res, next);
 });
 
-
-
 router.post("/register", (req, res) => {
     const {name, email, password} = req.body;
-    User.findOne({ email }, async (err, doc) => {
+    User.findOne({ email }, async (err, user) => {
         if (err) throw err;
-        if (doc) res.send("Email is Already in use");
-        if (!doc) {
+        if (user) res.send({ message: 'Email is already in use' } );
+        if (!user) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
@@ -42,7 +40,16 @@ router.post("/register", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-    res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+    res.send(req.user); 
+});
+
+router.get("/logout", (req, res) => {
+  try {
+    req.logout();
+    res.send( { message: 'Successfully logged out' });
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 module.exports = router;

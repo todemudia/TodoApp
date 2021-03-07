@@ -6,13 +6,23 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const cors = require('cors');
 const passport = require("passport");
-var authRoute = require('./routes/auth');
-
+const authRoute = require('./routes/auth');
+const todoRoute = require('./routes/todo');
 
 require('dotenv').config()
 
 /*******************  Setup *********************/
 const app = express();
+
+var port = process.env.PORT || 5001;
+
+mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Database is connected!');
+});
+
 app.use(
   cors({
     origin: "http://localhost:3000", // <-- location of the react app were connecting to
@@ -31,18 +41,10 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-var port = process.env.PORT || 5001;
-
-mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('Database is connected!');
-});
-
 
 /******************** Todo Routes **********************/
 app.use('/', authRoute);
+app.use('/todo', todoRoute);
 
 app.listen(port, function () { 
     console.log(`Server is running on port ${port} now`);
