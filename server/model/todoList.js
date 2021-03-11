@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('./user');
 
 // Create Schema
 const todoSchema = new Schema({
     userFrom: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     todoString: {
         type: String,

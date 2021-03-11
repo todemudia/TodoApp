@@ -14,7 +14,6 @@ router.post("/login", (req, res, next) => {
         req.logIn(user, (err) => {
           if (err) throw err;
           res.send({ message: 'Successfully  Authenticated' } );
-          console.log(req.user);
         });
       }
     })(req, res, next);

@@ -14,7 +14,7 @@ require('dotenv').config()
 /*******************  Setup *********************/
 const app = express();
 
-var port = process.env.PORT || 5001;
+var port = process.env.PORT || 5002;
 
 mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
@@ -25,10 +25,11 @@ db.once('open', function() {
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    origin: "http://localhost:4001", // <-- location of the react app were connecting to
     credentials: true,
   })
 );
+
 app.use(cookieParser("secretcode"));
 app.use(
 session({

@@ -4,14 +4,12 @@ const Todo = require('../model/todolist');
 
 /******************** Routes Setup **********************/
 
-router.post('/', function (req, res) {
+router.get('/', function (req, res) {
     if (!req.user) {
-        res.send({'message': 'No user logged in'})
-        res.redirect('/login');
+        res.send({'message': 'No user logged in'});
         return;
     }
-    console.log(req.user._id);
-    Todo.find({'userFrom': req.user._id})
+    Todo.find({userFrom: req.user.id})
     .then(todos => {
         res.send(todos);
     }).catch(err => {
@@ -19,14 +17,14 @@ router.post('/', function (req, res) {
     });
 });
 
+
 router.post('/add', function (req, res) {
     if (!req.user) {
-        res.redirect('/login');
         return;
     }
     const { todoString, isChecked } = req.body;
     const todo = new Todo ({
-        userFrom: req.user._id,
+        userFrom: req.user.id,
         todoString,
         isChecked
     });
