@@ -44,7 +44,7 @@ app.use(passport.session());
 
 
 /******************** Todo Routes **********************/
-app.use('/', authRoute);
+app.use('/auth', authRoute);
 app.use('/todo', todoRoute);
 
 app.listen(port, function () { 
