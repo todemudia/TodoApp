@@ -1,6 +1,6 @@
-export const GET_FAVOURITES = "GET_FAVOURITES";
-export const ADD_FAVOURITE = "ADD_FAVOURITE";
-export const DELETE_FAVOURITE = "DELETE_FAVOURITE";
+export const GET_TODOS = "GET_TODOS";
+export const ADD_TODO = "ADD_TODO";
+export const DELETE_TODO = "DELETE_TODO";
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";

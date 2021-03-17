@@ -1,11 +1,11 @@
 import { 
-    GET_FAVOURITES, 
-    ADD_FAVOURITES, 
-    DELETE_FAVOURITES } 
+    GET_TODOS, 
+    ADD_TODO, 
+    DELETE_TODO } 
 from './types.js';
 
-export const getFavourites = () => {
+export const getTodos  = () => {
     return {
-        type: GET_FAVOURITES
+        type: GET_TODOS
     };
 };

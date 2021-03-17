@@ -1,26 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions/authActions";
+import { clearErrors } from "../redux/actions/errorActions";
 
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [message, setMessage] = useState(null);
 
   const history = useHistory();
-  
+  const dispatch = useDispatch();
+
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { error, msg } = useSelector((state) => state.error.msg);
+  const id = useSelector((state) => state.error.id);
+
+  useEffect(() => {
+    if (id === "LOGIN_FAIL") {
+      error ? setMessage(error) : setMessage(msg);
+    }
+  }, [msg]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(clearErrors());
+      history.push("/todo");
+    }
+  });
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5001/login/', {'email': email, 'password': password}, {withCredentials: true})
-    .then(function (response) {
-        // handle success
-        console.log(response.data);
-        history.push("/todo");
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error);
-    });
+    dispatch(login(email, password));
+
   }
 
   const register = (e) => {
@@ -50,6 +64,7 @@ const Login = () => {
           />
       </div>
       <button type="submit">Login</button>
+      <p class={"login__error_msg"}>{message}</p>
       <button onClick={register}>
           Register
         </button>
