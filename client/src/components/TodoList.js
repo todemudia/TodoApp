@@ -5,7 +5,7 @@ const TodoList = (props) => {
     return (
         <>
             <ul className='list-inline '>
-                {props.items.map(item => <TodoItem itemValue={item.todoString}/>)}
+                {props.todos.map(todo => <TodoItem key={todo._id} todoString={todo.todoString} isChecked={todo.isChecked}/>)}
             </ul>
         </>
     )

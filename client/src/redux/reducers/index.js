@@ -4,7 +4,7 @@ import errorReducer from "./errorReducer";
 import authReducer from "./authReducer";
 
 const rootReducers = combineReducers({
-  todo: todoReducer,
+  todos: todoReducer,
   error: errorReducer,
   auth: authReducer,
 });

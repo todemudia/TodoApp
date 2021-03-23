@@ -6,17 +6,15 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true,
-        min: [1, 'Must Enter a Name'],
       },
     email: {
         type: String,
         required: true,
-        min: [1, 'Must Enter an Email'],
+        unique: true,
       },
     password: {    
         type: String,
         requred: true,
-        min: [1, 'Must Enter a Password'],
     },
 });
 

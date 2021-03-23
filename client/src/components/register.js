@@ -1,51 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { register } from "../redux/actions/authActions"
-import { clearErrors } from "../redux/actions/errorActions";
+import { useDispatch } from "react-redux";
+import { register } from "../redux/actions/authActions";
+import {Button, Container} from '@material-ui/core';
 
 
 const Register = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [message, setMessage] = useState(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();;
   const history = useHistory();
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const { error, msg } = useSelector((state) => state.error.msg);
-  const id = useSelector((state) => state.error.id);
-  
-  useEffect(() => {
-    if (id === "REGISTER_FAIL") {
-      if (error) {
-        setMessage(error);
-      } else {
-        setMessage(msg);
-      }
-    } else {
-      setMessage(null);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(clearErrors());
-      history.push("/");
-    }
-  });
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(register(name, email, password));
+    history.push('/todo');
   }
-
-  const login = (e) => {
-    e.preventDefault();
-    history.push("/");
-  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -70,6 +42,7 @@ const Register = () => {
           />
       </div>
       <div>
+      <label>Password</label>
       <input
             type="password"
             name="password"
@@ -78,11 +51,10 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
       </div>
-      <button type="submit">Register</button>
-      <p class={"login__error_msg"}>{message}</p>
-      <button onClick={login}>
-          Login
-        </button>
+      <Button type="submit">Register</Button>
+      <Button href='/'>
+        Login
+      </Button>
     </form>
   );
 }

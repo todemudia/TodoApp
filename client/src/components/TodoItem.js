@@ -4,8 +4,8 @@ const TodoItem = (props) => {
     return (
         <>  
             <li className='list-inline'>
-                <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                <p> {props.itemValue} </p>
+                <input type="checkbox" value={props.isChecked} id={props._id} />
+                <p> {props.todoString} </p>
             </li>
         </>
     )

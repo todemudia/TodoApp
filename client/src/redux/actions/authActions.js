@@ -13,7 +13,7 @@ import {
 
 // check token and load user
 
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => (dispatch) => {
   // User loading
   dispatch({ type: USER_LOADING });
 

@@ -1,74 +1,100 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../redux/actions/authActions";
-import { clearErrors } from "../redux/actions/errorActions";
+import {Button, TextField} from '@material-ui/core'
+import { Grid, Link, Container, Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+
+}));
+
 
 
 const Login = () => {
+  const classes = useStyles();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [message, setMessage] = useState(null);
-
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const { error, msg } = useSelector((state) => state.error.msg);
-  const id = useSelector((state) => state.error.id);
-
-  useEffect(() => {
-    if (id === "LOGIN_FAIL") {
-      error ? setMessage(error) : setMessage(msg);
-    }
-  }, [msg]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(clearErrors());
-      history.push("/todo");
-    }
-  });
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
-
+    history.push('/todo')
   }
 
-  const register = (e) => {
-    e.preventDefault();
-    history.push("/register");
-  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email Address</label>
-        <input
-            type="email"
-            name="email"
-            value={email}
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          />
-      </div>
-      <div>
-      <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-      </div>
-      <button type="submit">Login</button>
-      <p class={"login__error_msg"}>{message}</p>
-      <button onClick={register}>
-          Register
-        </button>
+    <Container component="main" maxWidth="xs">
+    <CssBaseline />
+    <div className={classes.paper}>
+      <Typography component="h1" variant="h5">
+        Sign in
+      </Typography>
+    <form className={classes.form} onSubmit={handleSubmit}>
+      <TextField 
+        id="outlined-basic" 
+        label="Email Address" 
+        type="email"
+        margin="normal"
+        fullWidth
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+        required
+        autoComplete="email"
+        autoFocus
+      />
+      <TextField 
+        id="outlined-basic" 
+        label="Password" 
+        type="password"
+        value={password}
+        margin="normal"
+        autoComplete="password"
+        fullWidth
+        onChange={(e) => setPassword(e.target.value)} 
+        required
+      />
+      <Button 
+        fullWidth
+        variant="contained"
+        color="primary"
+        type="submit">
+        Login
+      </Button>
+      <Grid container>
+        <Grid item xs>
+          <Link href="forgot" variant="body2">
+            Forgot password?
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="register" variant="body2">
+            {"Don't have an account? Sign Up"}
+          </Link>
+        </Grid>
+      </Grid>
     </form>
+    </div>
+    </Container>
   );
 }
 

@@ -1,13 +1,21 @@
+import { useHistory } from "react-router-dom";
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { getTodos, addTodos } from "../redux/actions/todoActions";
+import { clearErrors } from "../redux/actions/errorActions";
 import TodoList from './TodoList';
 import TodoForm from './TodoForm';
 
 
 
 const Todo = () => {
-    const [items, setItems] = useState([]);
+    //const [todos, setTodos] = useState([]);
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { todos } = useSelector((state) => state.todos);
 
     useEffect(() => {
         fetchTodos();
@@ -15,41 +23,24 @@ const Todo = () => {
     }, []);
 
     const fetchTodos = () => {
-        axios.get('http://localhost:5001/todo', {withCredentials: true})
-        .then(function (response) {
-            setItems(response.data);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+        dispatch(getTodos());
     }
     
-    const addNewItem = (item) => {
-      //Appends new data to the prev state
+    const addNewItem = (todoString) => {
         const newData = {
-            todoString: item,
+            todoString,
             isChecked: false
         }
-      axios.post('http://localhost:5001/todo/add', newData, {withCredentials: true})
-        .then(function (response) {
-            // handle success
-            fetchTodos();
-            console.log(`Data Posted: ${response.data}`);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+        dispatch(addTodos(newData));
     }
 
     return (
         <div className='jumbotron jumbotron fluid'>
             <div className='container-fluid'>
-            <h1 className='display-4 text-center'>Todoer</h1>
-            <hr className='my-4' />        
-            <TodoForm onSubmit={addNewItem}/>
-            <TodoList items={items} />
+                <h1 className='display-4 text-center'>Todoer</h1>
+                <hr className='my-4' />        
+                <TodoForm onSubmit={addNewItem}/>
+                <TodoList todos={todos} />
             </div>
            
         </div>
