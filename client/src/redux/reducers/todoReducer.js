@@ -8,7 +8,17 @@ import {
 } from "../actions/types.js";
 
 const initialState = {
-  todos: [],
+  todos: [
+    {_id: '1',
+      todoString: "Testing",
+      isChecked: false},
+      {_id: '2',
+      todoString: "I love Testing",
+      isChecked: false},
+      {_id: '3',
+      todoString: "Fuck Testing",
+      isChecked: false},
+  ],
 };
 
 export default function (state = initialState, action) {

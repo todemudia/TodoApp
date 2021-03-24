@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/actions/authActions";
-import {Button, TextField} from '@material-ui/core'
-import { Grid, Link, Container, Typography} from '@material-ui/core';
+import { Grid, Link, Container, Typography, TextField, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import FormGroup from '@material-ui/core/FormGroup';
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Nav from './nav';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -24,8 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
-
-
 
 const Login = () => {
   const classes = useStyles();
@@ -41,60 +46,74 @@ const Login = () => {
     history.push('/todo')
   }
 
-
   return (
-    <Container component="main" maxWidth="xs">
-    <CssBaseline />
-    <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        Sign in
-      </Typography>
-    <form className={classes.form} onSubmit={handleSubmit}>
-      <TextField 
-        id="outlined-basic" 
-        label="Email Address" 
-        type="email"
-        margin="normal"
-        fullWidth
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-        required
-        autoComplete="email"
-        autoFocus
-      />
-      <TextField 
-        id="outlined-basic" 
-        label="Password" 
-        type="password"
-        value={password}
-        margin="normal"
-        autoComplete="password"
-        fullWidth
-        onChange={(e) => setPassword(e.target.value)} 
-        required
-      />
-      <Button 
-        fullWidth
-        variant="contained"
-        color="primary"
-        type="submit">
-        Login
-      </Button>
-      <Grid container>
-        <Grid item xs>
-          <Link href="forgot" variant="body2">
-            Forgot password?
-          </Link>
-        </Grid>
-        <Grid item>
-          <Link href="register" variant="body2">
-            {"Don't have an account? Sign Up"}
-          </Link>
-        </Grid>
-      </Grid>
-    </form>
-    </div>
-    </Container>
+    <>
+    <Nav/>
+      <Container component="main" maxWidth="xs">
+      <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <FormGroup>
+              <TextField 
+                id="email" 
+                label="Email Address" 
+                type="email"
+                margin="normal"
+                variant="outlined"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                autoComplete="email"
+                fullWidth
+                autoFocus
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <TextField 
+                id="password" 
+                label="Password" 
+                type="password"
+                value={password}
+                margin="normal"
+                autoComplete="password"
+                variant="outlined"
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Button 
+                className={classes.submit}
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit">
+                Login
+              </Button>
+            </FormGroup>
+            <Grid container>
+              <Grid item xs>
+                <Link href="forgot" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="register" variant="body2">
+                  {"Don't have an account? Register"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
+    </>
   );
 }
 
