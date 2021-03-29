@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/actions/authActions";
-import { Grid, Link, Container, Typography, TextField, Button} from '@material-ui/core';
+import { Grid, Link, Container, Typography, TextField, Button, FormGroup, Avatar} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormGroup from '@material-ui/core/FormGroup';
-import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Nav from './nav';
 
