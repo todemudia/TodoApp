@@ -59,12 +59,13 @@ export const register = (name, email, password) => (dispatch) => {
 };
 
 export const login = (email, password) => (dispatch) => {
-
   //Request Body
   axios
-    .post("http://localhost:5001/auth/login/", 
-    { email, password }, 
-    { withCredentials: true })
+    .post(
+      "http://localhost:5001/auth/login/",
+      { email, password },
+      { withCredentials: true }
+    )
     .then((res) =>
       dispatch({
         type: LOGIN_SUCCESS,
@@ -82,13 +83,12 @@ export const login = (email, password) => (dispatch) => {
 };
 
 //log user out
-export const logout = () => {
+export const logout = () => (dispatch) => {
   axios
-  .post("http://localhost:5001/auth/logout/", 
-  { withCredentials: true })
-  .then(() => (dispatch) =>
-    dispatch({
-      type: LOGOUT_SUCCESS,
-    })
-  )
+    .post("http://localhost:5001/auth/logout/", { withCredentials: true })
+    .then(() => (dispatch) =>
+      dispatch({
+        type: LOGOUT_SUCCESS,
+      })
+    );
 };

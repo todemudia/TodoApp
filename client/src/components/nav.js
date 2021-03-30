@@ -1,13 +1,14 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import { MenuItem, Menu } from '@material-ui/core/';
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { MenuItem, Menu } from "@material-ui/core/";
+import { logout } from "../redux/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,23 +33,21 @@ export default function MenuAppBar() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    dispatch(logout());
+    history.push("/");
   };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography href={'/todo'} variant="h5" className={classes.title}>
+          <Typography href={"/todo"} variant="h5" className={classes.title}>
             Todoer
           </Typography>
           <Typography variant="body1" className={classes.userName}>
@@ -69,13 +68,13 @@ export default function MenuAppBar() {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={open}
                 onClose={handleClose}
